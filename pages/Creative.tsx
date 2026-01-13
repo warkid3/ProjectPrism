@@ -4,7 +4,7 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { 
   Paperclip, X, Square, BrainCog, 
-  Sparkles, Image as ImageIcon, User, Ratio, Settings2, ChevronDown, Check
+  Sparkles, ImageIcon, User, Ratio, Settings2, ChevronDown, Check
 } from "lucide-react";
 import { BlurFade } from "../components/ui/blur-fade";
 import AnimatedShaderBackground from "../components/ui/animated-shader-background";
@@ -365,7 +365,7 @@ export const CreativePage: React.FC = () => {
 
   const handleGeneration = (data: any) => {
     console.log("Generating with:", data);
-    alert('Creative extraction initiated. Dispatching to Prism OS...');
+    alert('Creative extraction initiated. Dispatching to natak.io...');
   };
 
   return (

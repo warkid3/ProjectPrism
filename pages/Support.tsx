@@ -19,6 +19,7 @@ export const SupportPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // Fix: Changed 'new Ticket' to 'newTicket' to correctly declare a variable of type Ticket.
     const newTicket: Ticket = {
       id: `TK-${Math.random().toString(36).substr(2, 6).toUpperCase()}`,
       subject,

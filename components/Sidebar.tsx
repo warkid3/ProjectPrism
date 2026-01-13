@@ -32,7 +32,7 @@ export const Sidebar: React.FC = () => {
           <Zap className="w-5 h-5 text-black fill-black" />
         </div>
         <div className="text-xl font-[900] tracking-tighter text-white uppercase italic">
-          PRISM<span className="text-[#CCFF00]">.</span>OS
+          natak<span className="text-[#CCFF00]">.</span>io
         </div>
       </div>
 

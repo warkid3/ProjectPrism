@@ -25,7 +25,7 @@ export const SettingsPage: React.FC = () => {
     setTimeout(() => setIsSaved(false), 2000);
   };
 
-  const API_KEY_MOCK = "PRISM_LIVE_ak_8234_9923_XLL_CORE_091";
+  const API_KEY_MOCK = "NATAK_LIVE_ak_8234_9923_XLL_CORE_091";
 
   return (
     <div className="h-full flex flex-col space-y-10 overflow-hidden bg-black font-inter">
@@ -60,7 +60,7 @@ export const SettingsPage: React.FC = () => {
 
                 <div className="grid grid-cols-2 gap-8">
                   <InputGroup label="Public Name" placeholder="Unit Operator" value={user?.name || "Unassigned"} />
-                  <InputGroup label="System Email" placeholder="prism@os.studio" value={user?.email || ""} readOnly />
+                  <InputGroup label="System Email" placeholder="operator@natak.io" value={user?.email || ""} readOnly />
                 </div>
              </section>
 
@@ -159,7 +159,7 @@ export const SettingsPage: React.FC = () => {
                       <div className="space-y-6">
                          <h3 className="text-[11px] font-black text-slate-500 uppercase tracking-[0.4em] italic">Webhook Orchestration</h3>
                          <div className="grid grid-cols-2 gap-8">
-                            <InputGroup label="Endpoint URL" placeholder="https://api.yourdomain.com/v1/prism-hook" />
+                            <InputGroup label="Endpoint URL" placeholder="https://api.natak.io/v1/prism-hook" />
                             <div className="space-y-3">
                                <label className="text-[9px] font-black text-slate-800 uppercase tracking-[0.4em] block italic">Retry Policy</label>
                                <select className="w-full bg-black border border-white/10 rounded-[2px] px-6 py-4 text-xs font-mono text-slate-400 focus:outline-none italic">
@@ -178,7 +178,7 @@ export const SettingsPage: React.FC = () => {
                          <span className="uppercase tracking-[0.2em] italic">Quick Manifest Request (cURL)</span>
                       </div>
                       <div className="bg-[#0F0F11] p-8 rounded-[2px] text-slate-400 leading-relaxed overflow-x-auto whitespace-nowrap italic border border-white/5">
-                         curl -X POST https://api.prism.os/v3/manifest \<br/>
+                         curl -X POST https://api.natak.io/v3/manifest \<br/>
                          &nbsp;&nbsp;-H "Authorization: Bearer $API_KEY" \<br/>
                          &nbsp;&nbsp;-d '{"prompt": "Cinematic wide shot...", "engine": "pony-sdxl"}'
                       </div>

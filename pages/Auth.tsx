@@ -56,10 +56,9 @@ export const LoginPage: React.FC = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Fix: Added missing 'tier' property to satisfy User interface requirements
     mockStore.setUser({
       id: Math.random().toString(36).substr(2, 9),
-      email: email || 'operator@prism.studio',
+      email: email || 'operator@natak.io',
       credits: 1000,
       tier: 'Pro'
     });
@@ -75,7 +74,7 @@ export const LoginPage: React.FC = () => {
           </div>
 
           <h1 className="text-4xl font-black text-white mb-3 tracking-tighter uppercase italic">
-            Welcome to Prism
+            Welcome to natak.io
           </h1>
           <p className="text-[10px] text-slate-500 uppercase tracking-[0.3em] mb-12 font-black">
             Login to your creative command center
@@ -208,7 +207,7 @@ export const LoginPage: React.FC = () => {
           </div>
           <div className="flex flex-col items-end gap-1">
             <span className="text-[9px] font-black text-slate-800 uppercase tracking-widest">Digital Content OS</span>
-            <span className="text-[11px] font-black text-[#CCFF00] italic uppercase tracking-[0.3em]">PRISM.CORE_v3.5</span>
+            <span className="text-[11px] font-black text-[#CCFF00] italic uppercase tracking-[0.3em]">NATAK.CORE_v3.5</span>
           </div>
         </div>
       </div>
