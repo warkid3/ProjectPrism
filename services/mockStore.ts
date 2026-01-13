@@ -1,5 +1,5 @@
 
-import { User, CharacterModel, Asset, GenerationJob, Status, PromptingModel, ImageModel, VideoModel } from '../types';
+import { User, CharacterModel, Asset, GenerationJob, Status, PromptingModel, ImageModel, VideoModel, Transaction, Notification, Ticket } from '../types';
 
 const STORAGE_KEYS = {
   USER: 'prism_user',
@@ -7,48 +7,66 @@ const STORAGE_KEYS = {
   ASSETS: 'prism_assets',
   JOBS: 'prism_jobs',
   INBOX: 'prism_inbox',
-  STARRED_PROMPTS: 'prism_starred_prompts'
-};
-
-const generateMockJobs = (characters: CharacterModel[]): GenerationJob[] => {
-  const statuses: Status[] = ['queued', 'processing', 'review', 'posted', 'archived'];
-  const pModels: PromptingModel[] = ['Gemini 1.5 Flash', 'xAI Grok Beta'];
-  const iModels: ImageModel[] = ['Pony Realism (SDXL)', 'Nano Banana Pro', 'Seedream 4.5'];
-  const vModels: VideoModel[] = ['Wan 2.6', 'Kling 2.6 Pro', 'LTX-2'];
-
-  return Array.from({ length: 20 }).map((_, i) => {
-    const char = characters[i % characters.length] || { id: 'default', name: 'Unknown', trigger_word: 'unknown' };
-    const isNsfw = i % 4 === 0;
-    const needsVideo = i % 3 === 0;
-    const status = statuses[i % statuses.length];
-    
-    return {
-      id: `job-${Math.random().toString(36).substr(2, 5)}`,
-      character_id: char.id,
-      prompting_model: isNsfw ? 'xAI Grok Beta' : pModels[i % pModels.length],
-      image_model: isNsfw ? 'Pony Realism (SDXL)' : iModels[i % iModels.length],
-      video_model: needsVideo ? vModels[i % vModels.length] : undefined,
-      status: status,
-      is_nsfw: isNsfw,
-      prompt: isNsfw 
-        ? `Cinematic low-angle shot of @${char.name} in provocative pose, neon lighting, highly detailed skin texture.`
-        : `A high-fashion editorial portrait of @${char.name} wearing a chrome techwear jacket in a rain-slicked Tokyo street.`,
-      output_url: status === 'posted' || status === 'review' || status === 'archived' ? `https://picsum.photos/seed/${i + 100}/800/1200` : undefined,
-      video_url: needsVideo && (status === 'posted' || status === 'review' || status === 'archived') ? 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHc3MmZiaWd3NGRzcm54d3ZqODJzOW1idG9tbmJqOHlhdnd5YnRwaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/L59a6Qp7qU3p5L1d4g/giphy.gif' : undefined,
-      created_at: new Date(Date.now() - i * 3600000).toISOString(),
-      progress: status === 'processing' ? 45 : (status === 'review' || status === 'posted' || status === 'archived' ? 100 : 0)
-    };
-  });
+  STARRED_PROMPTS: 'prism_starred_prompts',
+  TRANSACTIONS: 'prism_transactions',
+  NOTIFICATIONS: 'prism_notifications',
+  TICKETS: 'prism_tickets'
 };
 
 export const mockStore = {
   getUser: (): User | null => {
     const user = localStorage.getItem(STORAGE_KEYS.USER);
-    return user ? JSON.parse(user) : null;
+    if (!user) return null;
+    return JSON.parse(user);
   },
   setUser: (user: User | null) => {
     if (user) localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user));
     else localStorage.removeItem(STORAGE_KEYS.USER);
+  },
+
+  getTransactions: (): Transaction[] => {
+    const data = localStorage.getItem(STORAGE_KEYS.TRANSACTIONS);
+    if (!data) {
+      const initial: Transaction[] = [
+        { id: 'tx-1', type: 'debit', amount: 15, description: 'Batch Generation (5 Images)', timestamp: new Date(Date.now() - 3600000).toISOString() },
+        { id: 'tx-2', type: 'debit', amount: 50, description: 'Training Identity (Luna Cyber)', timestamp: new Date(Date.now() - 86400000).toISOString() },
+        { id: 'tx-3', type: 'credit', amount: 1000, description: 'Top-up: Studio Pack', timestamp: new Date(Date.now() - 172800000).toISOString() }
+      ];
+      localStorage.setItem(STORAGE_KEYS.TRANSACTIONS, JSON.stringify(initial));
+      return initial;
+    }
+    return JSON.parse(data);
+  },
+
+  getNotifications: (): Notification[] => {
+    const data = localStorage.getItem(STORAGE_KEYS.NOTIFICATIONS);
+    if (!data) {
+      const initial: Notification[] = [
+        { id: 'n-1', title: 'Extraction Complete', message: 'Job #8234-X has been processed.', type: 'job', read: false, link: '/studio', timestamp: new Date().toISOString() },
+        { id: 'n-2', title: 'System Protocol', message: 'Maintenance scheduled for 04:00 UTC.', type: 'system', read: true, timestamp: new Date(Date.now() - 3600000).toISOString() }
+      ];
+      localStorage.setItem(STORAGE_KEYS.NOTIFICATIONS, JSON.stringify(initial));
+      return initial;
+    }
+    return JSON.parse(data);
+  },
+  markNotificationRead: (id: string) => {
+    const ns = mockStore.getNotifications();
+    localStorage.setItem(STORAGE_KEYS.NOTIFICATIONS, JSON.stringify(ns.map(n => n.id === id ? { ...n, read: true } : n)));
+  },
+
+  getTickets: (): Ticket[] => {
+    const data = localStorage.getItem(STORAGE_KEYS.TICKETS);
+    if (!data) {
+      const initial: Ticket[] = [{ id: 'tk-1', subject: 'API Latency Issues', status: 'closed', category: 'technical', timestamp: '2024-05-10T12:00:00Z' }];
+      localStorage.setItem(STORAGE_KEYS.TICKETS, JSON.stringify(initial));
+      return initial;
+    }
+    return JSON.parse(data);
+  },
+  saveTicket: (ticket: Ticket) => {
+    const tks = mockStore.getTickets();
+    localStorage.setItem(STORAGE_KEYS.TICKETS, JSON.stringify([ticket, ...tks]));
   },
 
   getCharacters: (): CharacterModel[] => {
@@ -104,12 +122,7 @@ export const mockStore = {
 
   getJobs: (): GenerationJob[] => {
     const data = localStorage.getItem(STORAGE_KEYS.JOBS);
-    if (!data) {
-      const chars = mockStore.getCharacters();
-      const initial = generateMockJobs(chars);
-      localStorage.setItem(STORAGE_KEYS.JOBS, JSON.stringify(initial));
-      return initial;
-    }
+    if (!data) return [];
     return JSON.parse(data);
   },
   saveJob: (job: GenerationJob) => {

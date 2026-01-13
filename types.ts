@@ -9,6 +9,35 @@ export interface User {
   id: string;
   email: string;
   credits: number;
+  tier: 'Starter' | 'Pro' | 'Agency';
+  avatar?: string;
+  name?: string;
+}
+
+export interface Transaction {
+  id: string;
+  type: 'debit' | 'credit';
+  amount: number;
+  description: string;
+  timestamp: string;
+}
+
+export interface Notification {
+  id: string;
+  title: string;
+  message: string;
+  type: 'job' | 'system' | 'billing';
+  read: boolean;
+  link?: string;
+  timestamp: string;
+}
+
+export interface Ticket {
+  id: string;
+  subject: string;
+  status: 'open' | 'closed' | 'pending';
+  category: 'billing' | 'technical' | 'general';
+  timestamp: string;
 }
 
 export interface CharacterModel {

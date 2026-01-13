@@ -8,6 +8,10 @@ import { CharactersPage } from './pages/Characters';
 import { AssetsPage } from './pages/Assets';
 import { CreativePage } from './pages/Creative';
 import { SavedPromptsPage } from './pages/SavedPrompts';
+import { CreditStore } from './pages/CreditStore';
+import { SettingsPage } from './pages/Settings';
+import { SupportPage } from './pages/Support';
+import { NotificationsPage } from './pages/Notifications';
 import { mockStore } from './services/mockStore';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -52,6 +56,30 @@ const App: React.FC = () => {
         <Route path="/saved-prompts" element={
           <ProtectedRoute>
             <SavedPromptsPage />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/credits" element={
+          <ProtectedRoute>
+            <CreditStore />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/settings" element={
+          <ProtectedRoute>
+            <SettingsPage />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/support" element={
+          <ProtectedRoute>
+            <SupportPage />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/notifications" element={
+          <ProtectedRoute>
+            <NotificationsPage />
           </ProtectedRoute>
         } />
 

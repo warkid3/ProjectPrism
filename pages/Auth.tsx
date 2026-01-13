@@ -56,10 +56,12 @@ export const LoginPage: React.FC = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    // Fix: Added missing 'tier' property to satisfy User interface requirements
     mockStore.setUser({
       id: Math.random().toString(36).substr(2, 9),
       email: email || 'operator@prism.studio',
-      credits: 1000
+      credits: 1000,
+      tier: 'Pro'
     });
     navigate('/studio');
   };
